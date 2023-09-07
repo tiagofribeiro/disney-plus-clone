@@ -9,6 +9,7 @@ const Login = (props) => {
         <Container>
             <Content>
                 <Background />
+                <Filter />
                 <Main>
                     <Logo src={topBrandLogo} />
                     <SignUpButton href='#'>ACESSAR</SignUpButton>
@@ -51,6 +52,14 @@ const Background = styled.div`
     position: absolute;
     background-size: cover;
     background-image: url(${loginBackground});
+    z-index: -1;
+`;
+
+const Filter = styled.div`
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    backdrop-filter: blur(3px);
     z-index: -1;
 `;
 
