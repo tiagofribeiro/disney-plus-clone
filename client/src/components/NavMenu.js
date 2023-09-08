@@ -5,8 +5,8 @@ const NavMenu = (props) => {
         <Container>
             {props.items.map((item) => {
                 return (
-                    <MenuItem href={item.path}>
-                        <img src={item.icon} />
+                    <MenuItem key={item.id} href={item.path}>
+                        <img src={item.icon} alt=''/>
                         <span>{item.label}</span>
                     </MenuItem>
                 )

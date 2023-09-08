@@ -8,35 +8,43 @@ import searchIcon from '../assets/images/icons/search-icon.svg';
 import watchIcon from '../assets/images/icons/watchlist-icon.svg';
 import seriesIcon from '../assets/images/icons/series-icon.svg';
 
+import { handleSignIn } from "../api/firebase";
+
 import NavMenu from "./NavMenu";
 
 const menuItems = [
     {
+        id: 1,
         path: '/home',
         icon: homeIcon,
         label: 'INÍCIO',
     },
     {
+        id: 2,
         path: '/search',
         icon: searchIcon,
         label: 'PESQUISAR',
     },
     {
+        id: 3,
         path: '/watchlist',
         icon: watchIcon,
         label: 'MINHA LISTA',
     },
     {
+        id: 4,
         path: '/originals',
         icon: originalIcon,
         label: 'ORIGINAIS',
     },
     {
+        id: 5,
         path: '/movies',
         icon: movieIcon,
         label: 'FILMES',
     },
     {
+        id: 6,
         path: '/series',
         icon: seriesIcon,
         label: 'SÉRIES',
@@ -44,13 +52,17 @@ const menuItems = [
 ]
 
 const Header = (props) => {
+    const handleAuth = () => {
+        handleSignIn();
+    }
+
     return (
         <Nav>
             <Logo>
                 <img src={logo} alt="Disney+" />
             </Logo>
             <NavMenu items={menuItems} />
-            <LoginButton>Login</LoginButton>
+            <LoginButton onClick={handleAuth}>Login</LoginButton>
         </Nav>
     );
 }
