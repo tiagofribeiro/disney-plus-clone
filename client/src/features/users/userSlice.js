@@ -27,7 +27,7 @@ const userSlice = createSlice({
 
 export const { setUser, logout } = userSlice.actions;
 
-export const selectedName = state => state.user.name;
+export const selectedName = (state) => state.user.name;
 export const selectedEmail = state => state.user.email;
 export const selectedPhoto = state => state.user.photo;
 

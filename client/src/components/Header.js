@@ -72,9 +72,12 @@ const Header = (props) => {
     }
 
     const handleAuth = () => {
-        let userData = handleSignIn();
-        console.log(userData);
-        dispatchUser(userData.user);
+        handleSignIn()
+            .then((res) => {
+                dispatchUser(res.user);
+            }, (rej) => {
+                alert("Erro! Ainda não tratei :(");
+            });
     }
 
     return (

@@ -25,14 +25,8 @@ const storage = getStorage(app);
 const db = getFirestore(app);
 // const analytics = getAnalytics(app);
 
-const handleSignIn = () => {
-    signInWithPopup(auth, provider)
-        .then((result) => {
-            return result;
-        })
-        .catch((error) => {
-            alert(error.message);
-        })
+const handleSignIn = async() => {
+    return await signInWithPopup(auth, provider);
 }
 
 export { storage, db, handleSignIn };
