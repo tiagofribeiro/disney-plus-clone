@@ -26,10 +26,9 @@ const db = getFirestore(app);
 // const analytics = getAnalytics(app);
 
 const handleSignIn = () => {
-    console.log(firebaseConfig.apiKey);
     signInWithPopup(auth, provider)
         .then((result) => {
-            console.log(result);
+            return result;
         })
         .catch((error) => {
             alert(error.message);

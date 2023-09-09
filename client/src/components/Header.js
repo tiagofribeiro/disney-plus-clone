@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { useSelector, useDispatch } from "react-redux";
 
 import logo from '../assets/images/logo.svg';
 import homeIcon from '../assets/images/icons/home-icon.svg';
@@ -9,6 +10,12 @@ import watchIcon from '../assets/images/icons/watchlist-icon.svg';
 import seriesIcon from '../assets/images/icons/series-icon.svg';
 
 import { handleSignIn } from "../api/firebase";
+import { setUser, logout } from "../features/users/userSlice";
+import {
+    selectedName,
+    selectedEmail,
+    selectedPhoto,
+} from "../features/users/userSlice";
 
 import NavMenu from "./NavMenu";
 
@@ -52,8 +59,22 @@ const menuItems = [
 ]
 
 const Header = (props) => {
+    const dispatch = useDispatch();
+    const username = useSelector(selectedName);
+    const userPhoto = useSelector(selectedPhoto);
+
+    const dispatchUser = (user) => {
+        dispatch(setUser({
+            name: user.displayName,
+            email: user.email,
+            photo: user.photoURL,
+        }));
+    }
+
     const handleAuth = () => {
-        handleSignIn();
+        let userData = handleSignIn();
+        console.log(userData);
+        dispatchUser(userData.user);
     }
 
     return (
