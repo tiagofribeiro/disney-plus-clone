@@ -1,23 +1,24 @@
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
-import logo from '../assets/images/logo.svg';
-import homeIcon from '../assets/images/icons/home-icon.svg';
-import movieIcon from '../assets/images/icons/movie-icon.svg';
-import originalIcon from '../assets/images/icons/original-icon.svg';
-import searchIcon from '../assets/images/icons/search-icon.svg';
-import watchIcon from '../assets/images/icons/watchlist-icon.svg';
-import seriesIcon from '../assets/images/icons/series-icon.svg';
+import logo from "../../assets/images/logo.svg";
+import homeIcon from '../../assets/images/icons/home-icon.svg';
+import movieIcon from '../../assets/images/icons/movie-icon.svg';
+import originalIcon from '../../assets/images/icons/original-icon.svg';
+import searchIcon from '../../assets/images/icons/search-icon.svg';
+import watchIcon from '../../assets/images/icons/watchlist-icon.svg';
+import seriesIcon from '../../assets/images/icons/series-icon.svg';
 
-import { handleSignIn } from "../api/firebase";
-import { setUser, logout } from "../features/users/userSlice";
+import { handleSignIn } from "../../api/firebase";
+import { setUser, logout } from "../../features/users/userSlice";
 import {
     selectedName,
     selectedEmail,
     selectedPhoto,
-} from "../features/users/userSlice";
+} from "../../features/users/userSlice";
 
-import NavMenu from "./NavMenu";
+import NavMenu from "../molecules/NavMenu";
 
 const menuItems = [
     {
@@ -59,6 +60,7 @@ const menuItems = [
 ]
 
 const Header = (props) => {
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const username = useSelector(selectedName);
     const userPhoto = useSelector(selectedPhoto);
@@ -83,10 +85,17 @@ const Header = (props) => {
     return (
         <Nav>
             <Logo>
-                <img src={logo} alt="Disney+" />
+                <img src={logo} alt="Logo Disney+" />
             </Logo>
-            <NavMenu items={menuItems} />
-            <LoginButton onClick={handleAuth}>Login</LoginButton>
+            {
+                !username ?
+                    <LoginButton onClick={handleAuth}>Login</LoginButton>
+                    :
+                    <>
+                    <NavMenu items={menuItems} />
+                    <UserPhoto src={userPhoto} alt="Foto do usuário" />
+                    </>
+            }
         </Nav>
     );
 }
@@ -131,6 +140,11 @@ const LoginButton = styled.a`
         color: #000;
         background-color: #f9f9f9;
     }
+`;
+
+const UserPhoto = styled.img`
+    height: 52px;
+    border-radius: 48px;
 `;
 
 export default Header;

@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 
-import loginBackground from '../assets/images/login-background.jpg';
-import topBrandLogo from '../assets/images/brand-logo-top.svg';
-import bottomBrandLogo from '../assets/images/brand-logo-bottom.png';
+import loginBackground from '../../assets/images/login-background.jpg';
+import topBrandLogo from '../../assets/images/brand-logo-top.svg';
+import bottomBrandLogo from '../../assets/images/brand-logo-bottom.png';
 
-const Login = (props) => {
+const LoginPage = (props) => {
     return (
         <Container>
             <Content>
@@ -109,4 +109,4 @@ const HiddenLink = styled.a`
     }
 `;
 
-export default Login;
+export default LoginPage;
