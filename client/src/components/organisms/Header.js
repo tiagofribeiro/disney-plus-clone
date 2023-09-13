@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import ICONS from '../../app/icons';
 import logo from "../../assets/images/logo.svg";
 
-import { auth, handleSignIn } from "../../api/firebase";
+import { auth, handleSignIn, handleSignOut } from "../../api/firebase";
 import { setUser, logout } from "../../features/users/userSlice";
 import { selectedName, selectedEmail, selectedPhoto, } from "../../features/users/userSlice";
 
@@ -63,7 +63,7 @@ const Header = (props) => {
                 dispatchUser(user);
                 navigate('/home');
             }
-        })
+        });
     }, [username]);
 
     const dispatchUser = (user) => {
@@ -75,12 +75,19 @@ const Header = (props) => {
     }
 
     const handleAuth = () => {
-        handleSignIn()
-            .then((res) => {
-                dispatchUser(res.user);
-            }, (rej) => {
-                alert("Erro! Ainda não tratei :(");
-            });
+        if (!username) {
+            handleSignIn()
+                .then((res) => {
+                    dispatchUser(res.user);
+                }, (rej) => {
+                    alert("Erro! Ainda não tratei :(");
+                });
+        } else {
+            auth.signOut().then(() => {
+                dispatch(logout());
+                navigate('/');
+            })
+        }
     }
 
     return (
@@ -96,12 +103,15 @@ const Header = (props) => {
                         <NavMenu items={menuItems} />
                         <UserMenu>
                             <UserPhoto src={userPhoto} alt="Foto do usuário" />
-                            <SignOutButton />
+                            <UserDropDown>
+                                <span onClick={handleAuth}>Sair</span>
+                            </UserDropDown>
                         </UserMenu>
                     </>
             }
         </Nav>
     );
+
 }
 
 const Nav = styled.nav`
@@ -146,17 +156,43 @@ const LoginButton = styled.a`
     }
 `;
 
-const UserMenu = styled.div`
-
-`;
-
-const SignOutButton = styled.a`
-
-`;
 
 const UserPhoto = styled.img`
-    height: 52px;
-    border-radius: 48px;
+    height: 100%;
+    border-radius: 50%;
+`;
+
+const UserDropDown = styled.div`
+    display: flex;
+    width: 100px;
+    position: absolute;
+    top: 60px;
+    right: 0;
+    padding: 4px 12px;
+    justify-content: center;
+    font-size: 16px;
+    opacity: 0;
+    border: 1px solid rgba(255,255,255, 0.3);
+    border-radius: 4px;
+    background: rgba(0,0,0,0.7);
+    box-shadow: black 0 0 12px 0;
+    transition: 0.5s;
+`;
+
+const UserMenu = styled.div`
+    display: flex;
+    position: relative;
+    width: 56px;
+    height: 56px;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+
+    &:hover {
+        ${UserDropDown} {
+            opacity: 1;
+        }
+    }
 `;
 
 export default Header;
