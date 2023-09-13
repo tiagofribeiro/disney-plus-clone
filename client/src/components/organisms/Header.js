@@ -1,22 +1,14 @@
+import { useEffect } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
+import ICONS from '../../app/icons';
 import logo from "../../assets/images/logo.svg";
-import homeIcon from '../../assets/images/icons/home-icon.svg';
-import movieIcon from '../../assets/images/icons/movie-icon.svg';
-import originalIcon from '../../assets/images/icons/original-icon.svg';
-import searchIcon from '../../assets/images/icons/search-icon.svg';
-import watchIcon from '../../assets/images/icons/watchlist-icon.svg';
-import seriesIcon from '../../assets/images/icons/series-icon.svg';
 
-import { handleSignIn } from "../../api/firebase";
+import { auth, handleSignIn } from "../../api/firebase";
 import { setUser, logout } from "../../features/users/userSlice";
-import {
-    selectedName,
-    selectedEmail,
-    selectedPhoto,
-} from "../../features/users/userSlice";
+import { selectedName, selectedEmail, selectedPhoto, } from "../../features/users/userSlice";
 
 import NavMenu from "../molecules/NavMenu";
 
@@ -24,37 +16,37 @@ const menuItems = [
     {
         id: 1,
         path: '/home',
-        icon: homeIcon,
+        icon: ICONS.home,
         label: 'INÍCIO',
     },
     {
         id: 2,
         path: '/search',
-        icon: searchIcon,
+        icon: ICONS.search,
         label: 'PESQUISAR',
     },
     {
         id: 3,
         path: '/watchlist',
-        icon: watchIcon,
+        icon: ICONS.watch,
         label: 'MINHA LISTA',
     },
     {
         id: 4,
         path: '/originals',
-        icon: originalIcon,
+        icon: ICONS.original,
         label: 'ORIGINAIS',
     },
     {
         id: 5,
         path: '/movies',
-        icon: movieIcon,
+        icon: ICONS.movie,
         label: 'FILMES',
     },
     {
         id: 6,
         path: '/series',
-        icon: seriesIcon,
+        icon: ICONS.series,
         label: 'SÉRIES',
     },
 ]
@@ -64,6 +56,15 @@ const Header = (props) => {
     const dispatch = useDispatch();
     const username = useSelector(selectedName);
     const userPhoto = useSelector(selectedPhoto);
+
+    useEffect(() => {
+        auth.onAuthStateChanged(async (user) => {
+            if (user) {
+                dispatchUser(user);
+                navigate('/home');
+            }
+        })
+    }, [username]);
 
     const dispatchUser = (user) => {
         dispatch(setUser({
@@ -92,8 +93,11 @@ const Header = (props) => {
                     <LoginButton onClick={handleAuth}>Login</LoginButton>
                     :
                     <>
-                    <NavMenu items={menuItems} />
-                    <UserPhoto src={userPhoto} alt="Foto do usuário" />
+                        <NavMenu items={menuItems} />
+                        <UserMenu>
+                            <UserPhoto src={userPhoto} alt="Foto do usuário" />
+                            <SignOutButton />
+                        </UserMenu>
                     </>
             }
         </Nav>
@@ -140,6 +144,14 @@ const LoginButton = styled.a`
         color: #000;
         background-color: #f9f9f9;
     }
+`;
+
+const UserMenu = styled.div`
+
+`;
+
+const SignOutButton = styled.a`
+
 `;
 
 const UserPhoto = styled.img`

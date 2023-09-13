@@ -29,4 +29,4 @@ const handleSignIn = async() => {
     return await signInWithPopup(auth, provider);
 }
 
-export { storage, db, handleSignIn };
+export { storage, db, auth, handleSignIn };
