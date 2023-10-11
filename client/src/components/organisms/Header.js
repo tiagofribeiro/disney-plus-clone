@@ -83,10 +83,11 @@ const Header = (props) => {
                     alert("Erro! Ainda não tratei :(");
                 });
         } else {
-            auth.signOut().then(() => {
-                dispatch(logout());
-                navigate('/');
-            })
+            auth.signOut()
+                .then(() => {
+                    dispatch(logout());
+                    navigate('/');
+                })
         }
     }
 
